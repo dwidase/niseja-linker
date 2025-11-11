@@ -27,9 +27,11 @@ async function getProjectUrl(proyekId) {
     const res = await fetch(`${sheetURL}?action=get`);
     if (!res.ok) throw new Error(`HTTP error: ${res.status}`);
     const data = await res.json();
-    // Cari proyek sesuai ID
-    const project = data.find(p => p.id === proyekId);
+
+    // Cari proyek sesuai ID, gunakan Number() untuk keamanan
+    const project = data.find(p => Number(p.id) === Number(proyekId));
     return project ? project.url : null;
+
   } catch (err) {
     console.error("❌ Gagal mengambil data proyek:", err);
     return null;
