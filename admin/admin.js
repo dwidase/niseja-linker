@@ -1,86 +1,95 @@
-const loginContainer = document.getElementById('login-container');
-const adminContainer = document.getElementById('admin-container');
-const loginBtn = document.getElementById('loginBtn');
+// ===== admin.js =====
 
-const usernameInput = document.getElementById('username');
-const passwordInput = document.getElementById('password');
-
-// Username & password admin
-const ADMIN_USERNAME = "admin";
-const ADMIN_PASSWORD = "12345";
-
-loginBtn.addEventListener('click', () => {
-  const u = usernameInput.value.trim();
-  const p = passwordInput.value.trim();
-  if(u === ADMIN_USERNAME && p === ADMIN_PASSWORD) {
-    loginContainer.style.display = 'none';
-    adminContainer.style.display = 'block';
-    loadProyek();
-  } else {
-    alert("❌ Username atau password salah");
-  }
-});
-
-// ===== Tambah proyek =====
-const addBtn = document.getElementById('addProyekBtn');
-const nomorInput = document.getElementById('nomorProyek');
-const namaInput = document.getElementById('namaProyek');
-const urlInput = document.getElementById('urlAsli');
-
-// Ganti dengan URL Web App Google Sheet
+// URL Web App Google Sheet
 const sheetURL = "https://script.google.com/macros/s/AKfycbxN4xsOjnYwO0TTTWJ_HLv9JIlrdKAou7bbJaoWLIP4I-PDy3v5Jh4dzq-LlWoGy52_/exec";
 
-addBtn.addEventListener('click', async () => {
-  const nomor = nomorInput.value.trim();
-  const nama = namaInput.value.trim();
-  const url = urlInput.value.trim();
+// ===== Login admin sederhana =====
+const adminUsername = "admin"; // ganti sesuai keinginan
+const adminPassword = "password123"; // ganti sesuai keinginan
 
-  if(!nomor || !nama || !url) return alert("⚠️ Isi semua data");
+const loginForm = document.getElementById("loginForm");
+const adminPanel = document.getElementById("adminPanel");
 
-  try {
-    const res = await fetch(sheetURL, {
-      method: "POST",
-      body: JSON.stringify({ nomor, nama, url }),
-      headers: { "Content-Type": "application/json" }
-    });
+loginForm?.addEventListener("submit", function(e) {
+  e.preventDefault();
+  const user = document.getElementById("username").value;
+  const pass = document.getElementById("password").value;
 
-    const data = await res.json();
-
-    if(data.status === "success") {
-      alert("✅ Proyek berhasil ditambahkan");
-      nomorInput.value = namaInput.value = urlInput.value = "";
-      loadProyek();
-    } else {
-      alert("❌ Gagal menambahkan proyek: " + (data.message || "Unknown error"));
-    }
-
-  } catch(err) {
-    console.error(err);
-    alert("❌ Error koneksi ke Google Sheet. Pastikan Web App sudah deploy & permission = Anyone");
+  if(user === adminUsername && pass === adminPassword){
+    loginForm.style.display = "none";
+    adminPanel.style.display = "block";
+    loadProyek(); // load daftar proyek setelah login
+  } else {
+    alert("Username / Password salah!");
   }
 });
 
-// ===== Load daftar proyek =====
-async function loadProyek() {
-  try {
-    const res = await fetch(sheetURL + "?action=get");
-    const data = await res.json();
-    const tbody = document.querySelector('#proyekTable tbody');
-    tbody.innerHTML = "";
+// ===== Ambil daftar proyek dari Web App =====
+function loadProyek() {
+  fetch(`${sheetURL}?action=get`)
+    .then(res => res.json())
+    .then(data => {
+      if(!Array.isArray(data)){
+        alert("Gagal load daftar proyek, cek koneksi ke Web App Google Sheet");
+        return;
+      }
 
-    data.forEach(row => {
-      const tr = document.createElement('tr');
-      const linkPemesan = `${window.location.origin.replace('/admin','')}/?proyek=${row.nomor}`;
-      tr.innerHTML = `
-        <td>${row.nomor}</td>
-        <td>${row.nama}</td>
-        <td><a href="${row.url}" target="_blank">${row.url}</a></td>
-        <td><a href="${linkPemesan}" target="_blank">${linkPemesan}</a></td>
-      `;
-      tbody.appendChild(tr);
+      const tabel = document.getElementById("tabelProyek");
+      tabel.innerHTML = ""; // bersihkan table dulu
+
+      data.forEach(row => {
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+          <td>${row.id}</td>
+          <td>${row.nama}</td>
+          <td><a href="${row.url}" target="_blank">Link Undangan</a></td>
+          <td>${row.timestamp || ""}</td>
+          <td><a href="${window.location.origin}/LGT/?proyek=${row.id}" target="_blank">Link Pemesan</a></td>
+        `;
+        tabel.appendChild(tr);
+      });
+    })
+    .catch(err => {
+      console.error(err);
+      alert("Gagal load daftar proyek, cek koneksi ke Web App Google Sheet");
     });
-  } catch(err) {
-    console.error(err);
-    alert("❌ Gagal load daftar proyek. Cek koneksi ke Web App Google Sheet");
-  }
 }
+
+// ===== Tambah proyek baru =====
+const addBtn = document.getElementById("addProyekBtn");
+addBtn?.addEventListener("click", function() {
+  const nomor = document.getElementById("nomorProyek").value.trim();
+  const nama = document.getElementById("namaProyek").value.trim();
+  const url = document.getElementById("urlAsli").value.trim();
+
+  if(!nomor || !nama || !url){
+    alert("Semua field wajib diisi!");
+    return;
+  }
+
+  // Encode parameter agar aman
+  const params = new URLSearchParams({
+    add: "1",
+    id: nomor,
+    nama: nama,
+    url: url
+  });
+
+  fetch(`${sheetURL}?${params.toString()}`)
+    .then(res => res.json())
+    .then(data => {
+      if(data.status === "success"){
+        alert("Proyek berhasil ditambahkan!");
+        document.getElementById("nomorProyek").value = "";
+        document.getElementById("namaProyek").value = "";
+        document.getElementById("urlAsli").value = "";
+        loadProyek(); // reload daftar proyek
+      } else {
+        alert("Gagal menambahkan proyek: " + (data.message || ""));
+      }
+    })
+    .catch(err => {
+      console.error(err);
+      alert("Gagal koneksi ke Web App Google Sheet");
+    });
+});
