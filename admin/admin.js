@@ -44,7 +44,7 @@ function loadProyek() {
           <td>${row.nama}</td>
           <td><a href="${row.url}" target="_blank">Link Undangan</a></td>
           <td>${row.timestamp || ""}</td>
-          <td><a href="${window.location.origin}/LGT/?proyek=${row.id}" target="_blank">Link Pemesan</a></td>
+          <td><a href="${window.location.origin}/LGT2/?proyek=${row.id}" target="_blank">Link Pemesan</a></td>
         `;
         tabel.appendChild(tr);
       });
