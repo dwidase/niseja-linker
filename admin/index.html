@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LGT Admin</title>
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+  <div class="container" id="login-container">
+    <h2>Login Admin</h2>
+    <input type="text" id="username" placeholder="Username">
+    <input type="password" id="password" placeholder="Password">
+    <button id="loginBtn">Login</button>
+  </div>
+
+  <div class="container" id="admin-container" style="display:none;">
+    <h2>Admin LGT</h2>
+    <div>
+      <input type="text" id="nomorProyek" placeholder="Nomor Proyek">
+      <input type="text" id="namaProyek" placeholder="Nama Proyek">
+      <input type="text" id="urlAsli" placeholder="URL Asli Undangan">
+      <button id="addProyekBtn">Tambah Proyek</button>
+    </div>
+    <h3>Daftar Proyek</h3>
+    <table border="1" cellpadding="5" id="proyekTable">
+      <thead>
+        <tr>
+          <th>Nomor Proyek</th>
+          <th>Nama Proyek</th>
+          <th>URL Asli</th>
+          <th>Link Pemesan</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </div>
+
+  <script src="admin.js"></script>
+</body>
+</html>
