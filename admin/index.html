@@ -1,41 +1,64 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>LGT Admin</title>
-  <link rel="stylesheet" href="../style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LGT Admin</title>
+<link rel="stylesheet" href="../style.css">
+<style>
+  body { font-family: sans-serif; margin: 20px; }
+  #adminPanel { display: none; }
+  table { border-collapse: collapse; width: 100%; margin-top: 20px; }
+  table, th, td { border: 1px solid #ccc; }
+  th, td { padding: 8px; text-align: left; }
+  input[type=text] { padding: 5px; width: 300px; }
+  button { padding: 5px 10px; cursor: pointer; }
+</style>
 </head>
 <body>
-  <div class="container" id="login-container">
-    <h2>Login Admin</h2>
-    <input type="text" id="username" placeholder="Username">
-    <input type="password" id="password" placeholder="Password">
-    <button id="loginBtn">Login</button>
-  </div>
 
-  <div class="container" id="admin-container" style="display:none;">
-    <h2>Admin LGT</h2>
-    <div>
-      <input type="text" id="nomorProyek" placeholder="Nomor Proyek">
-      <input type="text" id="namaProyek" placeholder="Nama Proyek">
-      <input type="text" id="urlAsli" placeholder="URL Asli Undangan">
-      <button id="addProyekBtn">Tambah Proyek</button>
-    </div>
-    <h3>Daftar Proyek</h3>
-    <table border="1" cellpadding="5" id="proyekTable">
-      <thead>
-        <tr>
-          <th>Nomor Proyek</th>
-          <th>Nama Proyek</th>
-          <th>URL Asli</th>
-          <th>Link Pemesan</th>
-        </tr>
-      </thead>
-      <tbody></tbody>
-    </table>
-  </div>
+<h1>LGT Admin</h1>
 
-  <script src="admin.js"></script>
+<!-- ===== Login Form ===== -->
+<div id="loginForm">
+  <h2>Login Admin</h2>
+  <form>
+    <label>Username:</label><br>
+    <input type="text" id="username"><br><br>
+    <label>Password:</label><br>
+    <input type="password" id="password"><br><br>
+    <button type="submit">Login</button>
+  </form>
+</div>
+
+<!-- ===== Admin Panel ===== -->
+<div id="adminPanel">
+  <h2>Tambah Proyek</h2>
+  <label>Nomor Proyek:</label><br>
+  <input type="text" id="nomorProyek"><br><br>
+  <label>Nama Proyek:</label><br>
+  <input type="text" id="namaProyek"><br><br>
+  <label>URL Asli Undangan:</label><br>
+  <input type="text" id="urlAsli"><br><br>
+  <button id="addProyekBtn">Tambah Proyek</button>
+
+  <h2>Daftar Proyek</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Nama Proyek</th>
+        <th>Link Undangan</th>
+        <th>Timestamp</th>
+        <th>Link Pemesan</th>
+      </tr>
+    </thead>
+    <tbody id="tabelProyek">
+      <!-- daftar proyek akan di-render di sini -->
+    </tbody>
+  </table>
+</div>
+
+<script src="admin.js"></script>
 </body>
 </html>
