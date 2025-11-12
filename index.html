@@ -3,20 +3,25 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>LGT - Link Tamu</title>
+  <title>NISEJA - Link Nama Tamu</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
+  <div class="header-branding">
+        <img src="assets\niseja/logo niseja lebar 40px.png" alt="Logo Brand Anda" class="brand-logo">
+        <p class="tagline">BUAT LINK NAMA TAMU</p>
+    </div>
+	
   <div class="container">
-    <h1>LGT - Link Tamu</h1>
+    <h1>Link Nama Tamu</h1>
     <div id="form-container">
       <label for="namaTamu">Nama Tamu:</label>
-      <input type="text" id="namaTamu" placeholder="Masukkan nama Anda">
+      <input type="text" id="namaTamu" placeholder="Masukkan nama tamu">
       <button id="generateBtn">Buat Link Undangan</button>
     </div>
 
     <div id="link-container" style="display:none;">
-      <p>Link undangan khusus Anda:</p>
+      <p>Link undangan tamu:</p>
       <input type="text" id="generatedLink" readonly>
       <button id="copyBtn">Salin Link</button>
       <button id="shareBtn">Bagikan</button>
