@@ -4,8 +4,8 @@
 const sheetURL = "https://script.google.com/macros/s/AKfycbxN4xsOjnYwO0TTTWJ_HLv9JIlrdKAou7bbJaoWLIP4I-PDy3v5Jh4dzq-LlWoGy52_/exec";
 
 // ===== Login admin sederhana =====
-const adminUsername = "admin"; // ganti sesuai keinginan
-const adminPassword = "password123"; // ganti sesuai keinginan
+const adminUsername = "Darma"; // ganti sesuai keinginan
+const adminPassword = "DaRmA@113355"; // ganti sesuai keinginan
 
 const loginForm = document.getElementById("loginForm");
 const adminPanel = document.getElementById("adminPanel");
